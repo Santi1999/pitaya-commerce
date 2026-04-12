@@ -1,15 +1,15 @@
 services:
   # PostgreSQL Database
   postgres:
-    image: postgres:15-alpine
-    container_name: medusa_postgres
+    image: postgres:16-alpine
+    container_name: pitaya_postgres
     restart: unless-stopped
     environment:
       POSTGRES_DB: medusa-store
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
@@ -18,10 +18,10 @@ services:
   # Redis
   redis:
     image: redis:7-alpine
-    container_name: medusa_redis
+    container_name: pitaya_redis
     restart: unless-stopped
     ports:
-      - "6379:6379"
+      - "6380:6379"
     networks:
       - medusa_network
 
@@ -30,7 +30,7 @@ services:
   # and the admin dashboard.
   medusa:
     build: .
-    container_name: medusa_backend
+    container_name: pitaya_backend
     restart: unless-stopped
     depends_on:
       - postgres
