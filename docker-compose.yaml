@@ -29,7 +29,9 @@ services:
   # This service runs the Medusa backend application
   # and the admin dashboard.
   medusa:
-    build: .
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
     container_name: pitaya_backend
     restart: unless-stopped
     depends_on:
@@ -45,7 +47,7 @@ services:
     env_file:
       - .env
     volumes:
-      - .:/server
+      - ./backend:/server
       - /server/node_modules
     networks:
       - medusa_network
