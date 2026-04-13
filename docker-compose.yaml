@@ -52,6 +52,35 @@ services:
     networks:
       - medusa_network
 
+  # Frontend Store
+  # This service runs the storefront application.
+  storefront:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: pitaya_frontend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:9000
+      - MEDUDA_BACKEND_URL=http://localhost:9000
+    env_file:
+
+    volumnes:
+      - ./frontend:/storefront
+      - /storefront/node_modules
+    networks:
+      - medusa_network
+    develop:
+      watch:
+        - action: sync
+          path: ./frontend
+          target: /storefront
+        - action: rebuild
+          path: package.json
+    command: npm run dev
+
 volumes:
   postgres_data:
 
