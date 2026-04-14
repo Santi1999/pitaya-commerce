@@ -63,13 +63,11 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - NEXT_PUBLIC_API_URL=http://localhost:9000
-      - MEDUDA_BACKEND_URL=http://localhost:9000
+      - NEXT_PUBLIC_API_URL=http://medusa:9000
+      - MEDUSA_BACKEND_URL=http://medusa:9000
+      - NODE_ENV=development
     env_file:
-
-    volumnes:
-      - ./frontend:/storefront
-      - /storefront/node_modules
+      - .env
     networks:
       - medusa_network
     develop:
@@ -78,7 +76,7 @@ services:
           path: ./frontend
           target: /storefront
         - action: rebuild
-          path: package.json
+          path: frontend/package.json
     command: npm run dev
 
 volumes:

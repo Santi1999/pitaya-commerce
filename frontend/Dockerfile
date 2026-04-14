@@ -1,6 +1,13 @@
 # Development Dockerfile for Medusa
 FROM node:20-alpine
 
+# Install locale support
+RUN apk add --no-cache icu-libs
+
+# Set locale environment variables
+ENV LANG=en_US.UTF-8
+ENV LC_ALL=en_US.UTF-8
+
 # Set working directory
 WORKDIR /storefront
 

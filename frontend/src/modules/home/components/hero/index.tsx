@@ -1,35 +1,21 @@
-import { Github } from "@medusajs/icons"
-import { Button, Heading } from "@medusajs/ui"
-
 const Hero = () => {
   return (
-    <div className="h-[75vh] w-full border-b border-ui-border-base relative bg-ui-bg-subtle">
-      <div className="absolute inset-0 z-10 flex flex-col justify-center items-center text-center small:p-32 gap-6">
-        <span>
-          <Heading
-            level="h1"
-            className="text-3xl leading-10 text-ui-fg-base font-normal"
-          >
-            Ecommerce Starter Template
-          </Heading>
-          <Heading
-            level="h2"
-            className="text-3xl leading-10 text-ui-fg-subtle font-normal"
-          >
-            Powered by Medusa and Next.js
-          </Heading>
-        </span>
-        <a
-          href="https://github.com/medusajs/nextjs-starter-medusa"
-          target="_blank"
-        >
-          <Button variant="secondary">
-            View on GitHub
-            <Github />
-          </Button>
-        </a>
+    <section className="relative w-full h-[95vh] bg-black overflow-hidden">
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="text-center text-gray-600">
+          <div className="w-16 h-16 mx-auto mb-4 border-2 border-gray-700 rounded-full flex items-center justify-center">
+            <svg
+              className="w-8 h-8"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+          </div>
+          <p className="text-sm">Video Placeholder</p>
+        </div>
       </div>
-    </div>
+    </section>
   )
 }
 

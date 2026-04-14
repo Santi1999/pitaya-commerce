@@ -6,6 +6,7 @@ import {
   PopoverPanel,
   Transition,
 } from "@headlessui/react"
+import { ShoppingBag } from "lucide-react"
 import { convertToLocale } from "@lib/util/money"
 import { HttpTypes } from "@medusajs/types"
 import { Button } from "@medusajs/ui"
@@ -80,12 +81,15 @@ const CartDropdown = ({
       onMouseLeave={close}
     >
       <Popover className="relative h-full">
-        <PopoverButton className="h-full">
-          <LocalizedClientLink
-            className="hover:text-ui-fg-base"
-            href="/cart"
-            data-testid="nav-cart-link"
-          >{`Cart (${totalItems})`}</LocalizedClientLink>
+        <PopoverButton className="h-full flex items-center text-white hover:opacity-70 transition-opacity focus:outline-none" aria-label="Shopping bag">
+          <div className="relative">
+            <ShoppingBag className="w-5 h-5 lg:w-6 lg:h-6" />
+            {totalItems > 0 && (
+              <span className="absolute -top-1.5 -right-1.5 bg-white text-black text-[10px] font-semibold rounded-full w-4 h-4 flex items-center justify-center leading-none">
+                {totalItems}
+              </span>
+            )}
+          </div>
         </PopoverButton>
         <Transition
           show={cartDropdownOpen}
