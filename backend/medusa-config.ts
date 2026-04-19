@@ -10,13 +10,12 @@ module.exports = defineConfig({
       storeCors: process.env.STORE_CORS!,
       adminCors: process.env.ADMIN_CORS!,
       authCors: process.env.AUTH_CORS!,
-      jwtSecret: process.env.JWT_SECRET || "supersecret",
-      cookieSecret: process.env.COOKIE_SECRET || "supersecret",
+      jwtSecret: process.env.JWT_SECRET!,
+      cookieSecret: process.env.COOKIE_SECRET!,
     },
-    databaseDriverOptions: {
-      ssl: false,
-      sslmode: "disable",
-    },
+    databaseDriverOptions: process.env.NODE_ENV === "production"
+      ? { ssl: { rejectUnauthorized: true } }
+      : { ssl: false, sslmode: "disable" },
   },
   admin: {
     vite: (config) => {
