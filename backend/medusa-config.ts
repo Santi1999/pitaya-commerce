@@ -13,9 +13,10 @@ module.exports = defineConfig({
       jwtSecret: process.env.JWT_SECRET!,
       cookieSecret: process.env.COOKIE_SECRET!,
     },
-    databaseDriverOptions: process.env.NODE_ENV === "production"
-      ? { ssl: { rejectUnauthorized: true } }
-      : { ssl: false, sslmode: "disable" },
+    databaseDriverOptions:
+      process.env.NODE_ENV === "production"
+        ? { ssl: { rejectUnauthorized: true } }
+        : { ssl: false, sslmode: "disable" },
   },
   admin: {
     vite: (config) => {
@@ -35,4 +36,20 @@ module.exports = defineConfig({
       }
     },
   },
+  modules: [
+    {
+      resolve: "@medusajs/medusa/payment",
+      options: {
+        providers: [
+          {
+            resolve: "@medusajs/medusa/payment-stripe",
+            id: "stripe",
+            options: {
+              apiKey: process.env.STRIPE_API_KEY,
+            },
+          },
+        ],
+      },
+    },
+  ],
 })
