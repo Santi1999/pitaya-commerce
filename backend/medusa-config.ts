@@ -13,43 +13,37 @@ module.exports = defineConfig({
       jwtSecret: process.env.JWT_SECRET!,
       cookieSecret: process.env.COOKIE_SECRET!,
     },
-    databaseDriverOptions:
-      process.env.NODE_ENV === "production"
-        ? { ssl: { rejectUnauthorized: true } }
-        : { ssl: false, sslmode: "disable" },
+    databaseDriverOptions: { ssl: false },
   },
   admin: {
     vite: (config) => {
+      if (process.env.NODE_ENV === "production") return config
       return {
         server: {
           host: "0.0.0.0",
-          // Allow all hosts when running in Docker (development mode)
-          // In production, this should be more restrictive
-          allowedHosts: ["localhost", ".localhost", "127.0.0.1"],
+          allowedHosts: ["localhost", ".localhost", "127.0.0.1", "pitayanewyork.com"],
           hmr: {
-            // HMR websocket port inside container
             port: 5173,
-            // Port browser connects to (exposed in docker-compose.yml)
             clientPort: 5173,
           },
         },
       }
     },
   },
-  modules: [
-    {
-      resolve: "@medusajs/medusa/payment",
-      options: {
-        providers: [
-          {
-            resolve: "@medusajs/medusa/payment-stripe",
-            id: "stripe",
-            options: {
-              apiKey: process.env.STRIPE_API_KEY,
-            },
-          },
-        ],
-      },
-    },
-  ],
+  // modules: [
+  //   {
+  //     resolve: "@medusajs/medusa/payment",
+  //     options: {
+  //       providers: [
+  //         {
+  //           resolve: "@medusajs/medusa/payment-stripe",
+  //           id: "stripe",
+  //           options: {
+  //             apiKey: process.env.STRIPE_API_KEY,
+  //           },
+  //         },
+  //       ],
+  //     },
+  //   },
+  // ],
 })
