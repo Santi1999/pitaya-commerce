@@ -13,6 +13,8 @@ RUN npm install --legacy-peer-deps
 # Copy source code
 COPY ./backend .
 
+# Make the start script executable
+RUN chmod +x start.sh
 # Expose the port Medusa runs on
 EXPOSE 9000 5173
 
