@@ -17,4 +17,4 @@ COPY ./backend .
 EXPOSE 9000 5173
 
 # Start with migrations and then the development server
-ENTRYPOINT ["./start.sh"]
+CMD ["./start.sh"]
