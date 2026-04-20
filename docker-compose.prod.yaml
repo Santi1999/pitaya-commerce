@@ -40,6 +40,7 @@ services:
       - AUTH_CORS=${AUTH_CORS:?Set AUTH_CORS to your auth URL}
     networks:
       - medusa_network
+    command: ["sh", "-c", "npx medusa db:migrate && npx medusa start"]
 
   storefront:
     build:
