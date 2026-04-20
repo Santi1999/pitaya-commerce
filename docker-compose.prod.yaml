@@ -18,8 +18,6 @@ services:
     image: redis:7-alpine
     container_name: pitaya_redis
     restart: unless-stopped
-    ports:
-      - "127.0.0.1:6380:6379"
     command: redis-server --requirepass ${REDIS_PASSWORD:?Set REDIS_PASSWORD in your environment}
     networks:
       - medusa_network
