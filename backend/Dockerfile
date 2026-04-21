@@ -13,12 +13,11 @@ RUN npm install --legacy-peer-deps
 # Copy source code
 COPY ./backend .
 
-# Make the start script executable
-RUN echo "Running database migrations..." \
-    medusa db:migrate && \
-    npm run seed || echo "Seeding failed, continuing..."
+RUN chmod +x start.sh
+RUN npm run build
+
 # Expose the port Medusa runs on
 EXPOSE 9000 5173
 
 # Start with migrations and then the development server
-CMD ["npm", "run", "build"]
+CMD ["./start.sh"]
