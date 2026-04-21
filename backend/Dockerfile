@@ -5,13 +5,13 @@ FROM node:20-alpine
 WORKDIR /server
 
 # Copy package files and npm config
-COPY backend/package.json backend/package-lock.json ./
+COPY package.json package-lock.json ./
 
 # Install all dependencies using npm
 RUN npm install --legacy-peer-deps
 
 # Copy source code
-COPY ./backend .
+COPY . .
 
 RUN chmod +x start.sh
 RUN npm run build
