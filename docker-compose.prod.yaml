@@ -11,6 +11,12 @@ services:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - medusa_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d medusa-store"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
   redis:
     image: redis:7-alpine
@@ -19,6 +25,12 @@ services:
     command: redis-server --requirepass ${REDIS_PASSWORD:?Set REDIS_PASSWORD in your environment}
     networks:
       - medusa_network
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a $${REDIS_PASSWORD} ping | grep -q PONG"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
 
   medusa:
     build:
@@ -27,8 +39,10 @@ services:
     container_name: pitaya_backend
     restart: unless-stopped
     depends_on:
-      - postgres
-      - redis
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     ports:
       - "9000:9000"
     environment:
@@ -40,6 +54,12 @@ services:
       - AUTH_CORS=${AUTH_CORS:?Set AUTH_CORS to your auth URL}
     networks:
       - medusa_network
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:9000/health || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
 
   storefront:
     build:
@@ -47,15 +67,24 @@ services:
       dockerfile: frontend/Dockerfile
     container_name: pitaya_frontend
     restart: unless-stopped
+    depends_on:
+      medusa:
+        condition: service_healthy
     ports:
       - "8000:8000"
     environment:
-      - NEXT_PUBLIC_API_URL=http://medusa:9000
+      - NEXT_PUBLIC_API_URL=http://medusa:9000,
       - MEDUSA_BACKEND_URL=http://medusa:9000
       - NODE_ENV=production
     networks:
       - medusa_network
     command: npm run build
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:8000 || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
 
 volumes:
   postgres_data:
