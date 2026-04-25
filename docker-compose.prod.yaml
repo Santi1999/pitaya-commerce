@@ -22,8 +22,8 @@ services:
 
   medusa:
     build:
-      context: .
-      dockerfile: backend/Dockerfile
+      context: ./backend
+      dockerfile: Dockerfile
     container_name: pitaya_backend
     restart: unless-stopped
     depends_on:
