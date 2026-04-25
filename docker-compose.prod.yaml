@@ -38,6 +38,8 @@ services:
       - STORE_CORS=${STORE_CORS:?Set STORE_CORS to your storefront URL}
       - ADMIN_CORS=${ADMIN_CORS:?Set ADMIN_CORS to your admin URL}
       - AUTH_CORS=${AUTH_CORS:?Set AUTH_CORS to your auth URL}
+    env_file:
+      - .env
     networks:
       - medusa_network
 
@@ -52,9 +54,12 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - NEXT_PUBLIC_API_URL=http://medusa:9000,
+      - NEXT_PUBLIC_API_URL=http://medusa:9000
       - MEDUSA_BACKEND_URL=http://medusa:9000
+      - NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=${NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY:?Set NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY}
       - NODE_ENV=production
+    env_file:
+      - .env
     networks:
       - medusa_network
     command: npm run build
