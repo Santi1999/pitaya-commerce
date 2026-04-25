@@ -42,7 +42,6 @@ services:
     env_file:
       - .env
     volumes:
-      - ./backend:/server
       - /server/node_modules
     networks:
       - medusa_network
@@ -64,6 +63,8 @@ services:
       - NODE_ENV=production
     env_file:
       - .env
+    depends:
+      - medusa
     networks:
       - medusa_network
     command: npm run build
