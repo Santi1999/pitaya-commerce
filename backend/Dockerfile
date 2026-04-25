@@ -6,7 +6,7 @@ WORKDIR /server
 
 # Copy package files and npm config
 COPY package.json package-lock.json ./
-
+COPY start.sh  start.sh ./
 # Install all dependencies using npm
 RUN npm install --legacy-peer-deps
 
