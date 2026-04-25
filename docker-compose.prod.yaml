@@ -22,8 +22,8 @@ services:
 
   medusa:
     build:
-      context: ./backend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: backend/Dockerfile
     container_name: pitaya_backend
     restart: unless-stopped
     depends_on:
@@ -31,6 +31,7 @@ services:
       - redis
     ports:
       - "9000:9000"
+      - "5173:5173"
     environment:
       - NODE_ENV=production
       - DATABASE_URL=postgres://postgres:${POSTGRES_PASSWORD}@postgres:5432/medusa-store

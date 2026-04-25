@@ -20,4 +20,4 @@ RUN npm run build
 EXPOSE 9000 5173
 
 # Start with migrations and then the development server
-CMD ["./start.sh"]
+ENTRYPOINT ["./start.sh"]
