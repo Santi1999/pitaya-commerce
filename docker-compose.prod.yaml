@@ -11,12 +11,6 @@ services:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - medusa_network
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d medusa-store"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
 
   redis:
     image: redis:7-alpine
@@ -54,12 +48,6 @@ services:
       - AUTH_CORS=${AUTH_CORS:?Set AUTH_CORS to your auth URL}
     networks:
       - medusa_network
-    healthcheck:
-      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:9000/health || exit 1"]
-      interval: 15s
-      timeout: 10s
-      retries: 5
-      start_period: 30s
 
   storefront:
     build:
@@ -79,12 +67,6 @@ services:
     networks:
       - medusa_network
     command: npm run build
-    healthcheck:
-      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:8000 || exit 1"]
-      interval: 15s
-      timeout: 10s
-      retries: 5
-      start_period: 30s
 
 volumes:
   postgres_data:
