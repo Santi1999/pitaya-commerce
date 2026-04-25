@@ -40,6 +40,9 @@ services:
       - AUTH_CORS=${AUTH_CORS:?Set AUTH_CORS to your auth URL}
     env_file:
       - .env
+    volumes:
+      - ./backend:/server
+      - /server/node_modules
     networks:
       - medusa_network
 
