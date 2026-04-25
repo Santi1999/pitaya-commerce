@@ -48,8 +48,7 @@ services:
     container_name: pitaya_frontend
     restart: unless-stopped
     depends_on:
-      medusa:
-        condition: service_healthy
+      - medusa
     ports:
       - "8000:8000"
     environment:
