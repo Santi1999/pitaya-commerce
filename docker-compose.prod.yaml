@@ -27,10 +27,8 @@ services:
     container_name: pitaya_backend
     restart: unless-stopped
     depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
+      - postgres
+      - redis
     ports:
       - "9000:9000"
     environment:
