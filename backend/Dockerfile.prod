@@ -11,7 +11,7 @@ RUN npm run build
 
 # Install only production deps for the built output
 WORKDIR /server/.medusa/server
-RUN npm ci --omit=dev
+RUN rm -f yarn.lock && npm install --omit=dev --legacy-peer-deps
 
 # ── Stage 2: Production image (no build tools, no dev deps) ──
 FROM node:20-alpine AS runner
