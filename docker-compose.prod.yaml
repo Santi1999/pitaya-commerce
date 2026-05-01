@@ -41,6 +41,12 @@ services:
       - AUTH_CORS=${AUTH_CORS:?Set AUTH_CORS to your auth URL}
     env_file:
       - .env
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:9000/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 60s
     networks:
       - medusa_network
 
@@ -51,7 +57,8 @@ services:
     container_name: pitaya_frontend
     restart: unless-stopped
     depends_on:
-      - medusa
+      medusa:
+        condition: service_healthy
     ports:
       - "8000:8000"
     environment:
@@ -63,7 +70,7 @@ services:
       - .env
     networks:
       - medusa_network
-    command: npm run build
+    command: sh -c "npm run build && npm run start"
 
 volumes:
   postgres_data:
