@@ -23,6 +23,8 @@ ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=$NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY
 ENV MEDUSA_BACKEND_URL=$MEDUSA_BACKEND_URL
 
+# Allow self-signed certs during build (Coolify proxy uses self-signed cert internally)
+ENV NODE_TLS_REJECT_UNAUTHORIZED=0
 RUN npm run build
 
 # ── Stage 3: Production image (only standalone output) ──
