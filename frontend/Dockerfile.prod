@@ -3,7 +3,7 @@ FROM node:20-alpine AS deps
 
 WORKDIR /storefront
 
-COPY frontend/package.json frontend/package-lock.json ./
+COPY package.json package-lock.json ./
 RUN npm ci
 
 # ── Stage 2: Build ──
@@ -12,7 +12,7 @@ FROM node:20-alpine AS builder
 WORKDIR /storefront
 
 COPY --from=deps /storefront/node_modules ./node_modules
-COPY ./frontend .
+COPY . .
 
 # Build args become env vars at build time
 ARG NEXT_PUBLIC_API_URL
@@ -22,6 +22,8 @@ ARG MEDUSA_BACKEND_URL
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=$NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY
 ENV MEDUSA_BACKEND_URL=$MEDUSA_BACKEND_URL
+ENV LANG=en_US.UTF-8
+ENV LC_ALL=en_US.UTF-8
 
 RUN npm run build
 

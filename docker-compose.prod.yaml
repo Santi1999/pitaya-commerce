@@ -66,6 +66,7 @@ services:
         condition: service_healthy
     ports:
       - "9000:9000"
+      - "5173:5173"
     environment:
       - NODE_ENV=production
       - DATABASE_URL=postgres://postgres:${POSTGRES_PASSWORD}@postgres:5432/medusa-store
@@ -75,12 +76,6 @@ services:
       - AUTH_CORS=${AUTH_CORS:?Set AUTH_CORS to your auth URL}
     env_file:
       - .env
-    healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:9000/health || exit 1"]
-      interval: 30s
-      timeout: 5s
-      retries: 10
-      start_period: 60s
     networks:
       - medusa_network
     deploy:
@@ -91,12 +86,11 @@ services:
 
   storefront:
     build:
-      context: .
-      dockerfile: frontend/Dockerfile.prod
+      context: ./frontend
+      dockerfile: Dockerfile.prod
       args:
-        - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://medusa:9000}
         - NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=${NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY:?Set NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY}
-        - MEDUSA_BACKEND_URL=${MEDUSA_BACKEND_URL:-http://medusa:9000}
+        - MEDUSA_BACKEND_URL=${MEDUSA_BACKEND_URL:-https://admin.pitayanewyork.com}
     container_name: pitaya_frontend
     restart: unless-stopped
     depends_on:
@@ -104,11 +98,6 @@ services:
         condition: service_healthy
     ports:
       - "8000:8000"
-    environment:
-      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://medusa:9000}
-      - MEDUSA_BACKEND_URL=${MEDUSA_BACKEND_URL:-http://medusa:9000}
-      - NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=${NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY}
-      - NODE_ENV=production
     env_file:
       - .env
     networks:
