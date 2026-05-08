@@ -14,7 +14,10 @@ module.exports = defineConfig({
       cookieSecret: process.env.COOKIE_SECRET!,
     },
     databaseDriverOptions: { ssl: false, sslmode: "disable" },
-    workerMode: process.env.WORKER_MODE as "shared" | "worker" | "server",
+    workerMode: process.env.MEDUSA_WORKER_MODE as
+      | "shared"
+      | "worker"
+      | "server",
   },
   admin: {
     disable: process.env.DISABLE_MEDUSA_ADMIN === "true",

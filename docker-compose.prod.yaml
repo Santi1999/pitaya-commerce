@@ -90,7 +90,7 @@ services:
       dockerfile: Dockerfile.prod
       args:
         - NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=${NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY:?Set NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY}
-        - MEDUSA_BACKEND_URL=${MEDUSA_BACKEND_URL:-https://admin.pitayanewyork.com}
+        - MEDUSA_BACKEND_URL=http://medusa:9000
     container_name: pitaya_frontend
     restart: unless-stopped
     depends_on:
