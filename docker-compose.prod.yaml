@@ -89,8 +89,9 @@ services:
       context: ./frontend
       dockerfile: Dockerfile.prod
       args:
-        - NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=${NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY:?Set NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY}
-        - MEDUSA_BACKEND_URL=http://medusa:9000
+        - NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=${NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY}
+        - NEXT_PUBLIC_MEDUSA_BACKEND_URL=https://admin.pitayanewyork.com # for browser
+        - NEXT_PUBLIC_BASE_URL=https://pitayanewyork.com
     container_name: pitaya_frontend
     restart: unless-stopped
     depends_on:
@@ -98,8 +99,10 @@ services:
         condition: service_healthy
     ports:
       - "8000:8000"
-    env_file:
-      - .env
+    environemnt:
+      - NODE_ENV=production
+      - MEDUSA_BACKEND_URL=http://medusa:9000 # ← server-side only, NOT from .env file
+      - NEXT_PUBLIC_MEDUSA_BACKEND_URL=https://admin.pitayanewyork.com
     networks:
       - medusa_network
     deploy:
