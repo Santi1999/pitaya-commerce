@@ -99,7 +99,7 @@ services:
         condition: service_healthy
     ports:
       - "8000:8000"
-    environemnt:
+    environment:
       - NODE_ENV=production
       - MEDUSA_BACKEND_URL=http://medusa:9000 # ← server-side only, NOT from .env file
       - NEXT_PUBLIC_MEDUSA_BACKEND_URL=https://admin.pitayanewyork.com
